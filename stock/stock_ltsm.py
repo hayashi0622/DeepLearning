@@ -29,7 +29,8 @@ class Prediction:
                        return_sequences=False))
         model.add(Dense(self.in_out_neurons))
         model.add(Activation("linear"))
-        model.compile(loss="mape", optimizer="adam")
+        model.compile(optimizer="adam",
+                      loss="mape")
         return model
 
     def train(self, X_train, y_train, epochs=100):
@@ -59,31 +60,25 @@ def _run(file_prefix, length_of_sequences, hidden_neurons, epochs):
     result.columns = ['predict']
     result['actual'] = y_test
     plot = result.plot(
-            title='Nikkei Stock Average <epoch={0}>'.format(epochs),
+            title='Nikkei Stock Average <LoS={0},HN={1},EP={2}>'.format(
+                    length_of_sequences,
+                    hidden_neurons,
+                    epochs),
             figsize=(8, 5),
-            grid=True
-        )
+            grid=True)
     fig = plot.get_figure()
     fig.savefig('fig/{0}_los{1:02d}_hn{2:03d}_ep{3:03d}.png'.format(
             file_prefix, length_of_sequences, hidden_neurons, epochs))
 
 if __name__ == "__main__":
+    _run(file_prefix = 'indices_I101_1d', length_of_sequences = 10, hidden_neurons = 100, epochs = 1)
+    '''
     for s in [10, 20, 30]:
         for n in [100, 300, 500]:
             for e in [1, 10, 100]:
-                _run(file_prefix = 'indices_I101_1d', \
-                     length_of_sequences = s, \
-                     hidden_neurons = n, \
-                     epochs = e
-                    )
-    '''
-    _run(file_prefix = 'indices_I101_1d', length_of_sequences = 10, hidden_neurons = 100, epochs = 1)
-    _run(file_prefix = 'indices_I101_1d', length_of_sequences = 10, hidden_neurons = 300, epochs = 1)
-    _run(file_prefix = 'indices_I101_1d', length_of_sequences = 10, hidden_neurons = 500, epochs = 1)
-    _run(file_prefix = 'indices_I101_1d', length_of_sequences = 20, hidden_neurons = 100, epochs = 1)
-    _run(file_prefix = 'indices_I101_1d', length_of_sequences = 20, hidden_neurons = 300, epochs = 1)
-    _run(file_prefix = 'indices_I101_1d', length_of_sequences = 20, hidden_neurons = 500, epochs = 1)
-    _run(file_prefix = 'indices_I101_1d', length_of_sequences = 30, hidden_neurons = 100, epochs = 1)
-    _run(file_prefix = 'indices_I101_1d', length_of_sequences = 30, hidden_neurons = 300, epochs = 1)
-    _run(file_prefix = 'indices_I101_1d', length_of_sequences = 30, hidden_neurons = 500, epochs = 1)
+                _run(file_prefix = 'indices_I101_1d',
+                     length_of_sequences = s,
+                     hidden_neurons = n,
+                     epochs = e)
+                break
     '''
